@@ -40,6 +40,7 @@ public class LogIn implements com.company.interfaces.MenuItem {
             isExit = true;
             saveSession(response.getSessionId(), response.getUser().getId());
             System.out.println(System.getProperty("SESSION_ID"));
+            System.out.println(String.format("Welcome %s %s", response.getUser().getFirstName(), response.getUser().getLastName()));
         } catch (HttpClientErrorException e) {
             System.out.println("Failed to log in due to:");
             errorPorocessing(e);

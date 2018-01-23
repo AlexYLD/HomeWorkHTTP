@@ -45,6 +45,7 @@ public class Registrate implements com.company.interfaces.MenuItem {
             isExit = true;
             saveSession(response.getSessionId(), response.getUser().getId());
             System.out.println(System.getProperty("SESSION_ID"));
+            System.out.println(String.format("Welcome %s %s", response.getUser().getFirstName(), response.getUser().getLastName()));
         } catch (HttpClientErrorException e) {
             ErrorResponse errors = mapper.readValue(e.getResponseBodyAsString(), ErrorResponse.class);
             System.out.println("Failed to register due to:");
