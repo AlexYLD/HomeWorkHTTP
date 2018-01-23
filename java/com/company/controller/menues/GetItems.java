@@ -5,6 +5,7 @@ import com.company.entity.User;
 import com.company.interfaces.MenuItem;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.SneakyThrows;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.io.BufferedReader;
@@ -51,7 +52,7 @@ public class GetItems implements MenuItem {
         }
         try {
 
-            printObject(get(baseUrl + "items/" + query, new TypeReference<List<Item>>() {
+            printObject(get(baseUrl + "items/" + query, new ParameterizedTypeReference<List<Item>>() {
             }), "50");
 
         } catch (HttpClientErrorException e) {

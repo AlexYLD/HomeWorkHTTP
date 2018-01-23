@@ -5,6 +5,7 @@ import com.company.entity.User;
 import com.company.responces.ErrorResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.SneakyThrows;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.io.BufferedReader;
@@ -30,7 +31,7 @@ public class GetAllUsers implements com.company.interfaces.MenuItem {
     @SneakyThrows
     public void doAction(BufferedReader br) throws IOException {
         try {
-            printObject(get(baseUrl + "users/", new TypeReference<List<User>>() {}), "30");
+            printObject(get(baseUrl + "users/", new ParameterizedTypeReference<List<User>>() {}), "30");
         } catch (HttpClientErrorException e) {
             System.out.println("Failed get users due to:");
             errorPorocessing(e);

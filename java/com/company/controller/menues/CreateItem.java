@@ -5,6 +5,7 @@ import com.company.interfaces.MenuItem;
 import com.company.interfaces.Request;
 import com.company.requests.ItemCreateRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.io.BufferedReader;
@@ -27,7 +28,7 @@ public class CreateItem implements MenuItem {
         Request request = new ItemCreateRequest();
         fillRequest(request,br);
         try {
-            printObject(post(baseUrl + "/items/", request, new TypeReference<Item>() {}),"30");
+            printObject(post(baseUrl + "/items/", request, new ParameterizedTypeReference<Item>() {}),"30");
         }catch (HttpClientErrorException ex){
             errorPorocessing(ex);
         }

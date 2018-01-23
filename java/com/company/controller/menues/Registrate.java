@@ -6,6 +6,7 @@ import com.company.responces.UserRegistrationResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.io.BufferedReader;
@@ -39,7 +40,7 @@ public class Registrate implements com.company.interfaces.MenuItem {
         UserRegistrationRequest request = new UserRegistrationRequest();
         fillRequest(request, br);
         try {
-            response = (UserRegistrationResponse) post(baseUrl + "users/" + "register", request, new TypeReference<UserRegistrationResponse>() {
+            response = (UserRegistrationResponse) post(baseUrl + "users/" + "register", request, new ParameterizedTypeReference<UserRegistrationResponse>() {
             });
             isExit = true;
             saveSession(response.getSessionId(), response.getUser().getId());

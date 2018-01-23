@@ -5,6 +5,7 @@ import static com.company.controller.App.*;
 import com.company.entity.User;
 import com.company.responces.ErrorResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.io.BufferedReader;
@@ -28,7 +29,7 @@ public class GetById implements com.company.interfaces.MenuItem {
         System.out.println("Inser User's ID");
         id = br.readLine();
         try {
-            printObject(get(baseUrl + "users/" + id, new TypeReference<User>() {
+            printObject(get(baseUrl + "users/" + id, new ParameterizedTypeReference<User>() {
             }), "30");
 
         } catch (HttpClientErrorException e) {

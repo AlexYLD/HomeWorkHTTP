@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -46,7 +47,7 @@ public class App {
             } else {
                 System.setProperty("THIS_USER_ID", session.getProperty("THIS_USER_ID"));
                 System.setProperty("SESSION_ID", session.getProperty("SESSION_ID"));
-                User user = (User) get(baseUrl + "users/" + System.getProperty("THIS_USER_ID"), new TypeReference<User>() {
+                User user = (User) get(baseUrl + "users/" + System.getProperty("THIS_USER_ID"), new ParameterizedTypeReference<User>() {
                 });
                 System.out.println(String.format("Welcome %s %s", user.getFirstName(), user.getLastName()));
             }
@@ -57,58 +58,42 @@ public class App {
     }
 
     @SneakyThrows
-    public static Object post(String url, Request request, TypeReference responseType) {
+    public static Object post(String url, Request request, ParameterizedTypeReference responseType) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", "*/*");
         headers.set("Authorization", System.getProperty("SESSION_ID"));
         HttpEntity entity = new HttpEntity(request, headers);
-        ResponseEntity<String> responseStr = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-        Object response = null;
-        if (responseStr.getBody() != null) {
-            response = mapper.readValue(responseStr.getBody(), responseType);
-        }
+        Object response = restTemplate.exchange(url, HttpMethod.POST, entity, responseType).getBody();
         return response;
     }
 
     @SneakyThrows
-    public static Object get(String url, TypeReference responseType) {
+    public static Object get(String url, ParameterizedTypeReference responseType) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", "*/*");
         headers.set("Authorization", System.getProperty("SESSION_ID"));
         HttpEntity entity = new HttpEntity(headers);
-        ResponseEntity<String> responseStr = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
-        Object response = null;
-        if (responseStr.getBody() != null) {
-            response = mapper.readValue(responseStr.getBody(), responseType);
-        }
+        Object response = restTemplate.exchange(url, HttpMethod.GET, entity, responseType).getBody();
         return response;
     }
 
     @SneakyThrows
-    public static Object delete(String url, TypeReference responseType) {
+    public static Object delete(String url, ParameterizedTypeReference responseType) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", "*/*");
         headers.set("Authorization", System.getProperty("SESSION_ID"));
         HttpEntity entity = new HttpEntity(headers);
-        ResponseEntity<String> responseStr = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
-        Object response = null;
-        if (responseStr.getBody() != null) {
-            response = mapper.readValue(responseStr.getBody(), responseType);
-        }
+        Object response = restTemplate.exchange(url, HttpMethod.DELETE, entity, responseType).getBody();
         return response;
     }
 
     @SneakyThrows
-    public static Object put(String url, Request request, TypeReference responseType) {
+    public static Object put(String url, Request request, ParameterizedTypeReference responseType) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", "*/*");
         headers.set("Authorization", System.getProperty("SESSION_ID"));
         HttpEntity entity = new HttpEntity(request, headers);
-        ResponseEntity<String> responseStr = restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
-        Object response = null;
-        if (responseStr.getBody() != null) {
-            response = mapper.readValue(responseStr.getBody(), responseType);
-        }
+        Object response = restTemplate.exchange(url, HttpMethod.PUT, entity, responseType).getBody();
         return response;
     }
 
@@ -158,7 +143,7 @@ public class App {
 
     @SneakyThrows
     public static void printObject(Object object, String spacing) {
-        if(object==null){
+        if (object == null) {
             System.out.println("Not found");
             return;
         }

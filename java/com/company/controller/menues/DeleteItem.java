@@ -3,6 +3,7 @@ package com.company.controller.menues;
 import com.company.entity.Item;
 import com.company.interfaces.MenuItem;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.io.BufferedReader;
@@ -26,7 +27,8 @@ public class DeleteItem implements MenuItem {
         System.out.println("Insert item ID");
         String id = br.readLine();
         try {
-           delete(baseUrl + "/items/" + id, null);
+           delete(baseUrl + "/items/" + id, new ParameterizedTypeReference<Object>() {
+           });
         } catch (HttpClientErrorException e) {
             errorPorocessing(e);
         }
